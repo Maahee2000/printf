@@ -1,6 +1,6 @@
 #include "main.h"
+#include <stdlib.h>
 #include <stdarg.h>
-#include <stdio.h>
 /**
  * _printf - formatted output conversion and print data.
  * @format: input string.
