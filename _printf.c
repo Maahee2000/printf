@@ -1,49 +1,38 @@
 #include "main.h"
+#include <stdarg.h>
 
 /**
- * _printf - prints and input into the standard output
- * @format: the format string
- * Return: number of bytes printed
+ * _printf - function produces output according to a format.
+ * @format: is a pointer to string
+ * Return: is the count of printed characters
  */
 int _printf(const char *format, ...)
 {
-	int sum = 0;
-	va_list ap;
-	char *p, *start;
+	const char *string;
 
-	params_t params = PARAMS_INIT;
+	int count = 0;
 
-	va_start(ap, format);
+	va_list args;
 
-	if (!format || (format[0] == '%' && !format[1]))/* checking for NULL char */
+	if (!format)
 		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	for (p = (char *)format; *p; p++)
-	{
-		init_params(&params, ap);
-		if (*p != '%')/*checking for the % specifier*/
-		{
-			sum += _putchar(*p);
-			continue;
-		}
-		start = p;
-		p++;
-		while (get_flag(p, &params)) /* while char at p is flag character */
-		{
-			p++; /* next character */
-		}
-		p = get_width(p, &params, ap);
-		p = get_precision(p, &params, ap);
-		if (get_modifier(p, &params))
-			p++;
-		if (!get_specifier(p))
-			sum += print_from_to(start, p,
-					params.l_modifier || params.h_modifier ? p - 1 : 0);
-		else
-			sum += get_print_func(p, ap, &params);
-	}
-		_putchar(BUF_FLUSH);
-		va_end(ap);
-		return (sum);
+
+	va_start(args, format);
+	string = format;
+
+	count = loop_format(string, args);
+
+	va_end(args);
+
+	return (count);
 }
+
+/**
+ * loop_format - function is to print format
+ * @format: is a pointer to string
+ * @args: is a va_list args
+ * Return: is an integer.
+ */
+int loop_format(const char *format, va_list args)
+
+

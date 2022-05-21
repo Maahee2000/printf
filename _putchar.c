@@ -1,6 +1,9 @@
 #include <unistd.h>
 
-int _putchar(char c)
+/**
+ * _puts - prints a string with newline
+ * @str: the string to print
+ * eturn:( str-a)
+ */
+eturn:( str-a)
 {
-	return write(1, &c, 1);
-}
