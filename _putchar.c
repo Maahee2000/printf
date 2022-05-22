@@ -1,9 +1,11 @@
 #include <unistd.h>
 
 /**
- * _puts - prints a string with newline
- * @str: the string to print
- * eturn:( str-a)
+ * _putchar - writes the character c to stdout
+ * @c: the character to print
+ * Return: 0 on success and -1 error and errno is set appropiately
  */
-eturn:( str-a)
+int _putchar(char c)
 {
+	return (write(1, &c, 1));
+}
