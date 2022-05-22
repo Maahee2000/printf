@@ -1,11 +1,29 @@
+#include "main.h"
 #include <unistd.h>
 
 /**
  * _putchar - writes the character c to stdout
- * @c: the character to print
- * Return: 0 on success and -1 error and errno is set appropiately
+ * @c: The character to print
+ * On error, -1 is returned, and errno is set appropriately.
+ * Description: _putchar uses a local buffer of 1024 to call write
+ * as little as possible
+ *
+ * Return: On success 1.
  */
 int _putchar(char c)
 {
-	return (write(1, &c, 1));
+	static char buf[1024];
+	static int i;
+
+	if (c == -1 || i >= 1024)
+	{
+		write(1, &buf, i);
+		i = 0;
+	}
+	if (c != -1)
+	{
+		buf[i] = c;
+		i++;
+	}
+	return (1);
 }
