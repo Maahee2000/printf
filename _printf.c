@@ -1,158 +1,48 @@
 #include "main.h"
-#include <stdarg.h>
 
 /**
- * _printf - function produces output according to a format.
- * @format: is a pointer to string
- * Return: is the count of printed characters
+ * _printf - produces output according to a format
+ * @format: format string containing the characters and the specifiers
+ * Description: this function will call the get_print() function that will
+ * determine which printing function to call depending on the conversion
+ * specifiers contained into fmt
+ * Return: length of the formatted output string
  */
 int _printf(const char *format, ...)
 {
-	const char *string;
+	int (*pfunc)(va_list, flags_t *);
+	const char *p;
+	va_list arguments;
+	flags_t flags = {0, 0, 0};
 
-	int count = 0;
+	register int count = 0;
 
-	va_list args;
-
-	if (!format)
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
-
-	va_start(args, format);
-	string = format;
-
-	count = loop_format(string, args);
-
-	va_end(args);
-
-	return (count);
-}
-
-/**
- * loop_format - function is to print format
- * @format: is a pointer to string
- * @args: is a va_list args
- * Return: is an integer.
- */
-int loop_format(const char *format, va_list args)
-{
-	int i = 0, counter = 0, flag = 0, check_flag = 0, f_counter = 0;
-
-	while (i < _strlen((char *)format) && *(format + i) != '\0')
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = format; *p; p++)
 	{
-		char charac = format[i];
-
-		if (charac == '%')
+		if (*p == '%')
 		{
-			flag++, i++;
-			charac = format[i];
-			if (charac == '\0' && _strlen((char *)format) == 1)
-				return (-1);
-			if (charac == '\0')
-				return (counter);
-			if (charac == '%')
-				flag++;
-			else
+			p++;
+			if (*p == '%')
 			{
-				f_counter = func_service(charac, args);
-				if (f_counter >= 0 && f_counter != -1)
-				{
-					i++;
-					if (charac = format[i];
-					if (charac == '%')
-						flag--;
-					counter += f_counter;
-				}
-				else if (f_counter == -1 && charac != '\n' && flag == 1)
-					counter += _putchar('%');
+				count += _putchar('%');
+				continue;
 			}
+			while (get_flag(*p, &flags))
+				p++;
+			pfunc = get_print(*p);
+			count += (pfunc)
+				? pfunc(arguments, &flags)
+				: _printf("%%%c", *p);
 		}
-		check_flag = check_percent(&flag, charac);
-		counter += check_flag;
-		if (check_flag == 0 && charac != '%' && charac != '\0')
-			counter += _putchar(charac), i++;
-		check_flag = 0;
+		else
+			count += _putchar(*p);
 	}
-	return (counter);
-}
-
-/**
- * check_percent - print a percentage
- * @flag: is address of an int
- * @charac: is a char
- * Return: is 1 if % was printed, 0 otherwise.
- */
-int check_percent(int *flag, char charac)
-{
-	int count = 0;
-
-	int tmp;
-
-
-
-	tmp = *flag;
-
-	if (tmp == 2 && charac == '%')
-	{
-		count = _putchar('%');
-		tmp = 0;
-	}
-	return (count);
-}
-
-/**
- * func_service - takes arguments and prints it accordingly
- * @charac: is a char or type determinant
- * @args: is a va_list
- * Return: is the number of characters printed
- */
-int func_service(char charac, va_list args)
-{
-	int count = 0;
-
-	count = _switch(charac, args);
-
-	return (count);
-}
-
-/**
- * _switch - switch character to find arg
- * @arg: is a va_list argument
- * @c: is a char
- * Return: count of printed characters
- */
-int _switch(char c, va_list arg)
-{
-	int count = 0;
-
-	switch (c)
-	{
-		case 'c':
-			count += print_character(arg);
-			break;
-		case 'd':
-		case 'i':
-			count += print_signInt(arg, 10);
-			break;
-		case's':
-			count += print_string(arg);
-			break;
-		case 'x':
-			count += print_base16_upper_lower(arg, "0123456789ABCDEF");
-			break;
-		case 'X':
-			count += print_base16_upper_lower(arg, "0123456789ABCDEF");
-			break;
-		case 'p':
-			count += print_addr(arg);
-			break;
-		case 'o':
-			count += print_unsignedInt(arg, 8);
-			break;
-		case 'u':
-			count += print_unsignedInt(arg, 10);
-			break;
-defult:
-			count = -1;
-	}
+	_putchar(-1);
+	va_end(arguments);
 	return (count);
 }
