@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+#ifndef _ MAIN_H_
+#define _MAIN_H_
+=======
 #ifndef MAIN_H
 #define MAIN_H
+>>>>>>> 31523df0d361a53b6235da9118f3468ef95a676b
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -16,11 +21,18 @@ typedef struct flags
 	int plus;
 	int space;
 	int hash;
+<<<<<<< HEAD
+} flags_t;
+
+/**
+ * struct printHandler - struct to select the right function depending
+=======
 }
 flags_t;
 
 /**
  * struct printHandler - struct to choose the right function depending
+>>>>>>> 31523df0d361a53b6235da9118f3468ef95a676b
  * on the format specifier passed to _printf()
  * @c: format specifier
  * @f: pointer to the correct printing function
@@ -29,8 +41,12 @@ typedef struct printHandler
 {
 	char c;
 	int (*f)(va_list ap, flags_t *f);
+<<<<<<< HEAD
+} ph;
+=======
 }
 ph;
+>>>>>>> 31523df0d361a53b6235da9118f3468ef95a676b
 
 /* print_nums */
 int print_int(va_list l, flags_t *f);
@@ -75,4 +91,8 @@ int print_address(va_list l, flags_t *f);
 /* print_percent */
 int print_percent(va_list l, flags_t *f);
 
+<<<<<<< HEAD
+#endif /*_MAIN_H_  */
+=======
 #endif
+>>>>>>> 31523df0d361a53b6235da9118f3468ef95a676b

@@ -1,9 +1,11 @@
 #include "main.h"
 
 /**
- * print_address - prints address of input in hexa format
+ * print_addr - prints address of input in hexa format
  * @m: va_list arguments from _printf
- * @n: pointer to the struct flags that determines if a flag is passed to _printf
+ * @n: pointer to the struct flags that
+ * determines if a flag is passed to _printf
+ *
  * Return: number of char printed
  */
 int print_addr(va_list m, flags_t *n)
